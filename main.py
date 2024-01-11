@@ -1,6 +1,4 @@
 import streamlit as st
-<<<<<<< HEAD
-=======
 import numpy as np
 
 tab1, tab2 = st.tabs(["📈 Chart", "🗃 Data"])
