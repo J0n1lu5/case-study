@@ -9,4 +9,4 @@ tab1.line_chart(data)
 
 tab2.subheader("A tab with the data")
 tab2.write(data)
->>>>>>> 6ba6f5071872222f4615c631bda67a5de246536f
+
