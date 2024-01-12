@@ -60,10 +60,10 @@ if __name__ == "__main__":
     device1 = Device("Device1", "one@mci.edu")
     device2 = Device("Device2", "two@mci.edu") 
     device3 = Device("Device3", "two@mci.edu") 
+    device4 = Device("Device4", "four@mci.edu")
     device1.store_data()
     device2.store_data()
     device3.store_data()
-    device4 = Device("Device3", "four@mci.edu") 
     device4.store_data()
 
     loaded_device = Device.load_data_by_device_name('Device2')
