@@ -8,7 +8,7 @@ from devices import Device
 st.write("# Gerätemanagement")
 
 # tabs
-tab1, tab2 = st.tabs(["Gerät anlegen", "Gerät reservieren"])
+tab1, tab2, tab3 = st.tabs(["Gerät anlegen", "Verantwortlichen ändern","Gerät reservieren"])
 
 
 with tab1:
@@ -60,6 +60,38 @@ with tab2:
             # Every form must have a submit button.
             submitted = st.form_submit_button("Submit")
             if submitted:
+                loaded_device.store_data()
+                st.write("Data stored.")
+                st.rerun()
+    
+with tab3:
+     # Eine Auswahlbox mit Datenbankabfrage, das Ergebnis wird in current_device gespeichert
+    devices_in_db = find_devices()
+
+    if devices_in_db:
+        current_device_name = st.selectbox(
+            'Gerät auswählen',
+            options = devices_in_db, key="sbDevice_reservation")
+
+        if current_device_name in devices_in_db:
+            loaded_device = Device.load_data_by_device_name(current_device_name)
+            st.write(f"Loaded Device: {loaded_device}")
+
+
+        with st.form("Device reservation"):
+            st.write(loaded_device.device_name)
+
+            #checkbox_val = st.checkbox("Is active?", value=loaded_device.is_active)
+            #loaded_device.is_active = checkbox_val
+
+            reservieren_time = st.text_input("reservation time")
+            reservation_devicename = loaded_device.device_name
+            
+
+            # Every form must have a submit button.
+            submitted = st.form_submit_button("Submit")
+            if submitted:
+                new_reservation = reservation.reservation(reservieren_time, reservation_devicename)
                 loaded_device.store_data()
                 st.write("Data stored.")
                 st.rerun()
