@@ -8,7 +8,7 @@ from devices import Device
 st.write("# Gerätemanagement")
 
 # tabs
-tab1, tab2, tab3 = st.tabs(["Gerät anlegen", "Verantwortlichen ändern","Gerät reservieren"])
+tab1, tab2, tab3 = st.tabs(["Gerät anlegen", "Geräte Verwalten","Gerät reservieren"])
 
 
 with tab1:
@@ -35,34 +35,68 @@ with tab1:
 
 with tab2:
 
-    # Eine Auswahlbox mit Datenbankabfrage, das Ergebnis wird in current_device gespeichert
-    devices_in_db = find_devices()
+    genre = st.radio("Bitte auswählen",
+    ["Verantwortlichen ändern", "Gerät löschen"],
+    captions = ["", ""])
 
-    if devices_in_db:
-        current_device_name = st.selectbox(
-            'Gerät auswählen',
-            options = devices_in_db, key="sbDevice")
+    if genre == "Verantwortlichen ändern":
 
-        if current_device_name in devices_in_db:
-            loaded_device = Device.load_data_by_device_name(current_device_name)
-            st.write(f"Loaded Device: {loaded_device}")
+        # Eine Auswahlbox mit Datenbankabfrage, das Ergebnis wird in current_device gespeichert
+        devices_in_db = find_devices()
+
+        if devices_in_db:
+            current_device_name = st.selectbox(
+                'Gerät auswählen',
+                options = devices_in_db, key="sbDevice")
+
+            if current_device_name in devices_in_db:
+                loaded_device = Device.load_data_by_device_name(current_device_name)
+                st.write(f"Loaded Device: {loaded_device}")
 
 
-        with st.form("Device"):
-            st.write(loaded_device.device_name)
+            with st.form("Device"):
+                st.write(loaded_device.device_name)
 
-            #checkbox_val = st.checkbox("Is active?", value=loaded_device.is_active)
-            #loaded_device.is_active = checkbox_val
+                #checkbox_val = st.checkbox("Is active?", value=loaded_device.is_active)
+                #loaded_device.is_active = checkbox_val
 
-            text_input_val = st.text_input("Geräte-Verantwortlicher", value=loaded_device.managed_by_user_id)
-            loaded_device.managed_by_user_id = text_input_val
+                text_input_val = st.text_input("Geräte-Verantwortlicher", value=loaded_device.managed_by_user_id)
+                loaded_device.managed_by_user_id = text_input_val
 
-            # Every form must have a submit button.
-            submitted = st.form_submit_button("Submit")
-            if submitted:
-                loaded_device.store_data()
-                st.write("Data stored.")
-                st.rerun()
+                # Every form must have a submit button.
+                submitted = st.form_submit_button("Submit")
+                if submitted:
+                    loaded_device.store_data()
+                    st.write("Data stored.")
+                    st.rerun()
+    
+    elif genre == "Gerät löschen":
+        
+        devices_in_db = find_devices()
+        if devices_in_db:
+            current_device_name = st.selectbox(
+                'Gerät auswählen',
+                options = devices_in_db, key="sbDevice")
+
+            if current_device_name in devices_in_db:
+                loaded_device = Device.load_data_by_device_name(current_device_name)
+                st.write(f"Loaded Device: {loaded_device}")
+
+
+            with st.form("Device"):
+                st.write(loaded_device.device_name,"wirklich löschen?")
+
+                
+
+                #hier löschen implementieren
+
+
+                # Every form must have a submit button.
+                submitted = st.form_submit_button("Submit")  #macht momentan nichts
+                if submitted:
+                    loaded_device.store_data()
+                    st.write("Data stored.")
+                    st.rerun()
     
 with tab3:
      # Eine Auswahlbox mit Datenbankabfrage, das Ergebnis wird in current_device gespeichert
