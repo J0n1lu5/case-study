@@ -1,7 +1,5 @@
 import os
-
 from users import User
-
 from tinydb import TinyDB, Query
 from serializer import serializer
 
@@ -36,10 +34,18 @@ class Device():
             result = self.db_connector.update(self.__dict__, doc_ids=[result[0].doc_id])
             print("Data updated.")
         else:
+
+            
             # If the device doesn't exist, insert a new record
             self.db_connector.insert(self.__dict__)
             print("Data inserted.")
-            
+
+    def delete_data(self):
+        print("Deleting data...")
+        DeviceQuery = Query()
+        result = self.db_connector.remove(DeviceQuery.device_name == self.device_name)
+        print(f"Deleted {result}")
+
     # Class method that can be called without an instance of the class to construct an instance of the class
     @classmethod
     def load_data_by_device_name(cls, device_name):

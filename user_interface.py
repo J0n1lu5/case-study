@@ -87,15 +87,10 @@ with tab2:
                 st.write(loaded_device.device_name,"wirklich löschen?")
 
                 
-
-                #hier löschen implementieren
-
-
-                # Every form must have a submit button.
-                submitted = st.form_submit_button("Submit")  #macht momentan nichts
+                submitted = st.form_submit_button("Delete Device")
                 if submitted:
-                    loaded_device.store_data()
-                    st.write("Data stored.")
+                    loaded_device.delete_data()
+                    st.write("Device deleted.")
                     st.rerun()
     
 with tab3:
