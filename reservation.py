@@ -53,17 +53,3 @@ class Reservation():
         else:
             return None
 
-if __name__ == "__main__":
-    # Create a reservation
-    start_time = datetime(2024, 1, 1, 10, 0)
-    end_time = datetime(2024, 1, 1, 12, 0)
-    reservation1 = Reservation("Device1", "one@mci.edu", start_time, end_time)
-    reservation1.store_data()
-
-    # Load reservations for a device
-    loaded_reservations = Reservation.load_data_by_device_name('Device1')
-    if loaded_reservations:
-        for reservation in loaded_reservations:
-            print(f"Loaded Reservation: {reservation}")
-    else:
-        print("No reservations found for the device.")
