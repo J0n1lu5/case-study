@@ -3,6 +3,8 @@
 import streamlit as st
 from queries import find_devices
 from devices import Device
+import datetime
+from reservation import Reservation
 
 # Eine Überschrift der ersten Ebene
 st.write("# Gerätemanagement")
@@ -112,15 +114,25 @@ with tab3:
 
             #checkbox_val = st.checkbox("Is active?", value=loaded_device.is_active)
             #loaded_device.is_active = checkbox_val
+           
+            person = st.text_input("Wer reserviert")
 
-            reservieren_time = st.text_input("reservation time")
+            date_start = st.date_input("Start", datetime.date(2019, 7, 6))
+            
+            
+            date_end = st.date_input("Ende", datetime.date(2019, 7, 6))
+
             reservation_devicename = loaded_device.device_name
             
 
             # Every form must have a submit button.
             submitted = st.form_submit_button("Submit")
             if submitted:
-                new_reservation = reservation.reservation(reservieren_time, reservation_devicename)
-                loaded_device.store_data()
+                new_reservation = Reservation(reservation_devicename,person,date_start,date_end)
+                new_reservation.store_data()
                 st.write("Data stored.")
                 st.rerun()
+
+
+
+                #reservation1 = Reservation("Device1", "one@mci.edu", start_time, end_time)
